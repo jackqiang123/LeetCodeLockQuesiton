@@ -14,3 +14,37 @@
 // Could you solve it in O(nk) runtime?
 public class Solution {
     public int minCostII(int[][] costs) {
+      int h = costs.length;
+      if (h == 0) return 0;
+      int w = costs[0].length;
+      int [][]dp = new int[h][w];
+      int lastMinIndex = 0; int secMinIndex = 0;
+      for (int i = 0; i < h; i++){
+        for (int j = 0; j < w; j++){
+          if(i == 0) dp[i][j] = costs[i][j];
+          else {
+            if (j == lastMinIndex) {
+              dp[i][j] = dp[i-1][secMinIndex] + costs[i][j];
+            }
+            else {
+              dp[i][j] = dp[i-1][lastMinIndex] + costs[i][j];
+            }
+          }
+        }
+        lastMinIndex = 0;
+        for (int j = 0; j < w; j++){
+          if (dp[i][lastMinIndex]>dp[i][j]) lastMinIndex = j;
+        }
+
+        secMinIndex = lastMinIndex == 0 ? 1 : 0;
+        for (int j = 0; j < w && secMinIndex < w; j++){
+          if (dp[i][secMinIndex] > dp[i][j] && j != lastMinIndex) secMinIndex = j;
+        }
+      }
+      int best = Integer.MAX_VALUE;
+      for (int i : dp[h-1]){
+        best = Math.min(best, i);
+      }
+      return best;
+    }
+  }

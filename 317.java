@@ -16,3 +16,50 @@
 // There will be at least one building. If it is not possible to build such house according to the above rules, return -1.
 public class Solution{
   public int shortestDistance(int[][] grid) {
+    int h = grid.length;
+    if (h == 0) return 0;
+    int w = grid[0].length;
+    int [][]dis = new int[h][w];
+    boolean [][]reach = new boolean[h][w];
+    int []dx = new int[]{0,1,0,-1};
+    int []dy = new int[]{1,0,-1,0};
+    for (int i = 0; i < h; i++){
+      for (int j = 0; j < w; j++){
+        if (grid[i][j] == 1){
+          Queue<Integer> queue = new LinkedList<Integer>();
+          boolean visit[][] = new visit[h][w];
+          queue.add(i*w+j);
+          int d = 0;
+          while(!queue.isEmpty()){
+            int qsize = queue.size(); d++;
+            for (int index = 0; index < qsize; index++){
+              int cur = queue.remove();
+              int curx = cur/w;
+              int cury = cur%w;
+              for (int l = 0; l < dx.length; l++){
+                int nx = curx + dx[l];
+                int ny = cury + dy[l];
+                if (nx < 0 || nx >= h || ny < 0 || ny >= w || visit[nx][ny]) continue;
+                visit[nx][ny] = true;
+                dis[nx][ny] += d;
+                reach[nx][ny] = true;
+                queue.add(nx*w+ny);
+              }
+            }
+          }
+        }
+      }
+    }
+    int res = 0;
+    for (int i = 0; i < h; i++)
+      for (int j = 0; j < w; j++)
+    {    if (grid[i][j] == 0)
+        {  res = Math.min(res, dis[i][j]);
+          if (!reach[i][j]) return -1;
+        }
+
+    }
+
+    return res;
+  }
+}

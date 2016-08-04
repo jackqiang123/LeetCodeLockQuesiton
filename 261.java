@@ -15,3 +15,18 @@
 public class Solution {
     //using union find to get check whether there is loop or not
     public boolean validTree(int n, int[][] edges) {
+      int nEdge = edges.length;
+      if (nEdge != n - 1) return false;
+      int []root = new int[n];
+      for (int i = 0; i < n; i++) root[i] = i;
+      for (int[]edge : edges){
+        if (findRoot(edge[0],root) == findRoot(edge[1],root)) return false;
+        root[findRoot(edge[0],root)] = root[findRoot(edge[1],root)];//union
+      }
+      return true;
+    }
+    private int findRoot(int i, int []root){
+      while(i != root[i]) i = root[i];
+      return i;
+    }
+  }

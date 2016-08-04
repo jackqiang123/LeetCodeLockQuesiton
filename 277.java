@@ -1,3 +1,7 @@
+/* The knows API is defined in the parent class Relation.
+      boolean knows(int a, int b); */
+
+public class Solution extends Relation {
 // [LeetCode] Find the Celebrity // Find the Celebrity // Suppose you are at a
 // party with n people (labeled from 0 to n - 1) and among them, there may exist
 // one celebrity. The definition of a celebrity is that all the other n -
@@ -11,5 +15,22 @@
 // function should minimize the number of calls to knows. // Note: There will be
 // exactly one celebrity if he/she is in the party. Return the celebrity's label
 // if there is a celebrity in the party. If there is no celebrity, return -1.
-public class Solution{
   public int findCelebrity(int n) {
+    Stack<Integer> stack = new Stack<>();
+    for (int i = 0; i < n; i++) stack.push(i);
+    while(stack.size() > 1){
+      int p1 = stack.pop();
+      int p2 = stack.pop();
+      if (knows(p1,p2)) stack.push(p2);
+      else stack.push(p1);
+    }
+    int c = stack.pop();
+    for (int i = 0; i < n; i++){
+      if (i != c){
+        if (knows(i,c) && !knows(c,i)) continue;
+        else return -1;
+      }
+    }
+    return c;
+  }
+}

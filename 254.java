@@ -40,4 +40,26 @@
 //   [4, 8]
 // ]
 public class Solution {
-    public List<List<Integer>> getFactors(int n) {
+	int num = 0;
+	public List<List<Integer>> getFactors(int n) {
+		this.num = n;
+		return helper(n, 2);// split n with factor, factor within lower bound
+	}
+
+  private List<List<Integer>> helper(int n, int lower){
+     List<List<Integer>> res = new ArrayList<>();
+     if (n < lower) return res;
+     if (n != num)  // do not split this number, do not conduct if it is the number itself
+      res.add(Arrays.asList(n));
+     for (int i = lower; i <= n; i++) {// split the number
+        if (n%i!=0)  continue;
+        List<List<Integer>> cur = helper(n/i, i);
+        for (List<Integer> ls : cur) {
+          List<Integer> temp = new ArrayList<Integer>(ls);
+          temp.add(0, i);
+          res.add(temp);
+        }
+     }
+     return res;
+   }
+}

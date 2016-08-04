@@ -8,6 +8,18 @@
 // You may assume that each input would have exactly one solution.
 public class Solution{
   public int[] twoSum(int []nums, int target){
-
+    int i = 0; int j = nums.length - 1;
+    while(i < j){
+      if (nums[i] + nums[j] > target) {
+        j--;
+      }
+      else if (nums[i] + nums[j] < target) {
+        i++;
+      }
+      else {
+        return new int[]{1+i,1+j};
+      }
+    }
+    return null;
   }
 }

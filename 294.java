@@ -11,3 +11,23 @@
 
 public class Solution {
  public boolean canWin(String s) {
+   List<String> next = generatePossibleNextMoves(s);
+   if (next.size() == 0) return false;
+   for (String ss : next){
+     if (!canWin(ss)) return true;
+   }
+   return false;
+ }
+ private List<String> generatePossibleNextMoves(String s) {
+   char [] sarray = s.toCharArray();
+   List<String> res = new ArrayList<>();
+   for (int i = 1; i < sarray.length; i++){
+     if (sarray[i-1] == '+' && sarray[i] == '+'){
+       sarray[i-1] = '-'; sarray[i] = '-';
+       res.add(new String(sarray));
+       sarray[i-1] = '+'; sarray[i] = '+';
+     }
+   }
+   return res;
+ }
+}

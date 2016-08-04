@@ -17,3 +17,15 @@
 // If there is no valid move, return an empty list [].
 public class Solution{
    public List<String> generatePossibleNextMoves(String s) {
+     char [] sarray = s.toCharArray();
+     List<String> res = new ArrayList<>();
+     for (int i = 1; i < sarray.length; i++){
+       if (sarray[i-1] == '+' && sarray[i] == '+'){
+         sarray[i-1] = '-'; sarray[i] = '-';
+         res.add(new String(sarray));
+         sarray[i-1] = '+'; sarray[i] = '+';
+       }
+     }
+     return res;
+   }
+ }

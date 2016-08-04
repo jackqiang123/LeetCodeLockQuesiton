@@ -12,5 +12,33 @@
     // The point (0,2) is an ideal meeting point, as the total travel
     // distance of 2+2+2=6 is minimal. So return 6.
 
-    public class Solution {
+public class Solution {
         public int minTotalDistance(int[][] grid) {
+          List<Integer> index = new ArrayList<Integer>();
+          int h = grid.length;
+          if (h == 0) return 0;
+          int w = grid[0].length;
+          for (int i = 0; i < h; i++){
+            for (int j = 0; j < w; j++){
+              if (grid[i][j] == 1) index.add(i);
+            }
+          }
+          int sum = getDis(index);
+          index = new ArrayList<Integer>();
+          for (int j = 0; j < w; j++){
+            for (int i = 0; i < h; i++){
+              if (grid[i][j] == 1) index.add(j);
+            }
+          }
+          return sum + getDis(index);
+        }
+        private int getDis(List<Integer> index){
+          int size = index.size();
+          int lo = 0; int hi = size - 1;
+          int res = 0;
+          while(lo < hi){
+            res += index.get(hi--) - index.get(lo++);
+          }
+          return res;
+        }
+      }

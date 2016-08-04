@@ -53,3 +53,28 @@ public class Solution{
       }
     }
     public List<List<Integer>> verticalOrder(TreeNode root) {
+         List<List<Integer>> res = new ArrayList<>();
+         if (root == null) return res;
+      Map<Integer, List<Integer>> map = new HashMap<>();
+      Queue<PositionTreeNode> queue = new LinkedList<>();
+      queue.add(new PositionTreeNode(root,0));
+      while(!queue.isEmpty()){
+        PositionTreeNode cur = queue.remove();
+        if (map.get(cur.col) == null) map.put(cur.col, new ArrayList<Integer>());
+        map.get(cur.col).add(cur.node.val);
+        if (cur.node.left != null) {
+          queue.add(new PositionTreeNode(cur.node.left, cur.col-1));
+        }
+        if (cur.node.right != null){
+          queue.add(new PositionTreeNode(cur.node.right, cur.col+1));
+        }
+      }
+
+      List<Integer> colList = new ArrayList<Integer>(map.keySet());
+      Collections.sort(colList);
+      for (int i : colList)
+        res.add(map.get(i));
+      return res;
+    }
+
+  }

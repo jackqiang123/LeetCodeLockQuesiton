@@ -8,3 +8,21 @@
 // Could you solve it in O(n^2) runtime?
 public class Solution {
   public int threeSumSmaller(int[] nums, int target) {
+    int sum = 0;
+    Arrays.sort(nums);
+    for (int i = 0; i < nums.length; i++){
+      int lo = i + 1;
+      int hi = nums.length - 1;
+      while(lo < hi){
+        if (nums[i] + nums[lo] + nums[hi] >= target){
+          hi--;
+        }
+        else {
+          lo++;
+          sum+=(hi-lo+1);
+        }
+      }
+    }
+    return sum;
+  }
+}

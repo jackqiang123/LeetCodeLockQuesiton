@@ -9,3 +9,21 @@
 // Could you do it in-place without allocating extra space?
 public class Solution {
     public void reverseWords(char[] s) {
+      int len = s.length;
+      reverse(s, 0, len - 1);
+      int i = 0; int j = 0;
+      while(j < len){
+        while (j < len && s[j] != ' ') j++;
+        reverse(s, i, j-1);
+        i = j + 1; j = i;
+      }
+    }
+    private void reverse(char[]s, int i, int j){
+      while(i < j) swap(s, i++, j--);
+    }
+    private void swap(char []s, int i, int j){
+      char t = s[i];
+      s[i] = s[j];
+      s[j] = t;
+    }
+  }

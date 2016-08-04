@@ -25,7 +25,34 @@
 // isUnique("cart") -> true
 // isUnique("cane") -> false
 // isUnique("make") -> true
-public class ValidWordAbbr{
-   HashMap<String, Set<String>> map;
-   public ValidWordAbbr(String[] dictionary) {
-      public boolean isUnique(String s) {
+public class ValidWordAbbr {
+    Map<String, Set<String>> map;
+    public ValidWordAbbr(String[] dictionary) {
+      map = new HashMap<>();
+      for (String s : dictionary){
+        String abbr = getAbbr(s);
+        if (map.get(abbr) == null) map.put(abbr, new HashSet<String>());
+        map.get(abbr).add(s);
+      }
+    }
+
+    private String getAbbr(String s){
+      if (s.length() <= 2) return s;
+      StringBuilder sb = new StringBuilder();
+      sb.append(s.charAt(0)).append(s.length()-2).append(s.charAt(s.length()-1));
+      return sb.toString();
+    }
+
+    public boolean isUnique(String word) {
+      String abbr = getAbbr(word);
+      if (map.get(abbr) == null) return true;
+      else if (map.get(abbr).contains(word)) return map.get(abbr).size() <= 1;
+      else return false;
+    }
+}
+
+
+// Your ValidWordAbbr object will be instantiated and called as such:
+// ValidWordAbbr vwa = new ValidWordAbbr(dictionary);
+// vwa.isUnique("Word");
+// vwa.isUnique("anotherWord");

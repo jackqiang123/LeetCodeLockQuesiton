@@ -25,5 +25,20 @@ public class Codec {
 
     // Encodes a list of strings to a single string.
     public String encode(List<String> strs) {
+      StringBuilder sb = new StringBuilder();
+      for (String s : strs) sb.append(s.length()).append("#").append(s);
+      return sb.toString();
+    }
       // Decodes a single string to a list of strings.
-public List<String> decode(String s) {
+    public List<String> decode(String s) {
+      List<String> res = new ArrayList<>();
+      int start = 0, mid = 0;
+      while(start < s.length()){
+        mid = s.indexOf("#", start);
+        int len = Integer.parseInt(s.substring(start, mid));
+        res.add(s.substring(mid+1,mid+1+len));
+        start = mid + 1 + len;
+      }
+      return res;
+    }
+  }

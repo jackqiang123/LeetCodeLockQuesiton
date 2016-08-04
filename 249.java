@@ -16,3 +16,26 @@
 
 public class Solution{
     public List<List<String>> groupStrings(String[] strings) {
+      List<List<String>> res = new ArrayList<>();
+      Map<String, List<String>> map = new HashMap<>();
+      for (String s : strings){
+        String encode = getCode(s);
+        if (map.get(encode) == null) map.put(encode, new ArrayList<String>());
+        map.get(encode).add(s);
+      }
+      for (List<String> value : map.values()){
+        Collections.sort(value);
+        res.add(value);
+      }
+      return res;
+    }
+    private String getCode(String s){
+      if (s.length() == 1) return "1";
+      StringBuilder res = new StringBuilder();
+      for (int i = 0; i < s.length()-1; i++){
+        int diff = Math.abs(s.charAt(i+1)-s.charAt(i) + 26)%26;
+        res.append(diff).append(':');
+      }
+      return res.toString();
+    }
+  }

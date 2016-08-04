@@ -41,4 +41,49 @@
 //
 // We return the result as an array: [1, 1, 2, 3]
 public class Solution{
+  int []rootArray;
   public List<Integer> numIslands2(int m, int n, int[][] positions) {
+      List<Integer> res = new ArrayList<>();
+      int count = 0;
+      rootArray = new int[m*n];
+      for (int i = 0; i < rootArray.length; i++) rootArray[i]= i;
+      boolean [][]visit = new boolean[m][n];
+      int []dx = new int[]{1,0,-1,0};
+      int []dy = new int[]{0,1,0,-1};
+      for (int []land : positions){
+        int uc = 0;
+        if (visit[land[0]][land[1]]) {
+          res.add(count); continue;
+        }
+        visit[land[0]][land[1]] = true;
+        for (int i = 0; i < dx.length; ++i){
+          int thisx = land[0] + dx[i];
+          int thisy = land[1] + dy[i];
+
+          if (thisx < 0 || thisx >= m || thisy < 0 || thisy >= n || visit[thisx][thisy] == false)
+            continue;
+          if (union(land[0]*n+land[1], thisx*n+thisy))
+            uc++;
+        }
+        if (uc == 0) res.add(++count);
+        else if (uc == 1) res.add(count);
+        else if (uc == 2) res.add(--count);
+        else if (uc == 3) {
+          count -= 2; res.add(count);
+        }
+        else {
+          count -= 3; res.add(count);
+        }
+      }
+      return res;
+  }
+  private boolean union(int i, int j){
+    if (root(i) == root(j)) return false;
+    rootArray[root(i)] = root(j);
+    return true;
+  }
+  private int root(int i){
+      while(i != rootArray[i]) i = rootArray[i];
+      return i;
+  }
+}
