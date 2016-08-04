@@ -18,3 +18,6 @@
  */
 public class Solution {
     public ListNode plusOne(ListNode head) {
+
+    }
+  }

@@ -13,3 +13,20 @@
 // Can you do it in O(n) time?
 public class Solution {
     public int maxSubArrayLen(int[] nums, int k) {
+      Map<Integer, Integer> map = new HashMap<>();
+      int n = 0;
+      int best = 0;
+      for (int i = 0; i < nums.length; i++){
+        n += nums[i];
+        if (map.get(n) == null) map.put(n,i);
+        if (n == k) best = i + 1;
+      }
+      n = 0;
+      for (int i = 0; i < nums.length; i++){
+        n += nums[i];
+        int target = n - k;
+        if (map.get(target) != null) best = Math.max(best, i - map.get(target));
+      }
+      return best;
+    }
+  }

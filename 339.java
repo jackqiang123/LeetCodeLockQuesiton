@@ -26,3 +26,18 @@
  */
 public class Solution{
     public int depthSum(List<NestedInteger> nestedList) {
+      int sum = 0;
+      for (NestedInteger ni : nestedList){
+        sum += helper(ni, 1);
+      }
+      return sum;
+    }
+    private int helper(NestedInteger ni, int depth){
+      if (ni.isInteger()) return ni.getInteger()*depth;
+      int sum = 0;
+      for (NestedInteger n : ni.getList()){
+        sum += helper(n, depth+1);
+      }
+      return sum;
+    }
+  }
