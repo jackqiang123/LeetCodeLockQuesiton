@@ -32,5 +32,18 @@
  * }
  */
  public class Solution {
-     Map<Integer, List<Integer>> map;
-     public List<List<Integer>> findLeaves(TreeNode root) {
+    private List<List<Integer>> res = new ArrayList<>();
+    public List<List<Integer>> findLeaves(TreeNode root) {
+        helper(root);
+        return res;
+    }
+    private int helper(TreeNode node){
+        if(null==node)  return -1;
+        int height= 1 + Math.max(helper(node.left), helper(node.right));
+        if(res.size()<height+1)  res.add(new ArrayList<Integer>());
+        res.get(height).add(node.val);
+        // if need to actually remove the leaves, uncomment next line
+        // node.left = node.right = null;
+        return height;
+    }
+}

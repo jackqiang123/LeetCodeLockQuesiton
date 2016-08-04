@@ -22,5 +22,31 @@
 // Follow up:
 // Can you figure out ways to solve it with O(n) time complexity?
 public class Solution{
-
+    int max = 0;
     public int largestBSTSubtree(TreeNode root) {
+      max = 0;
+      helper(root);
+      return max;
+    }
+    private Cell helper(TreeNode root){
+      if (root == null) return new Cell(0, true, Integer.MAX_VALUE, Integer.MIN_VALUE);
+      Cell leftResult = helper(root.left);
+      Cell rightResult = helper(root.right);
+      if (leftResult.isBST && rightResult.isBST){
+        if (root.val > leftResult.upper && root.val < rightResult.lower) {
+          max = Math.max(max, 1+ leftResult.size + rightResult.size);
+          return new Cell(1+ leftResult.size + rightResult.size, true, Math.min(root.val, leftResult.lower), Math.max(root.val, rightResult.upper));
+        }
+      }
+      return new Cell(0, false, 0, 0);
+    }
+    class Cell{
+      int size;
+      boolean isBST;
+      int lower;
+      int upper;
+      public Cell(int size, boolean isBST, int lower, int upper){
+        this.size = size; this.isBST = isBST; this.lower = lower; this.upper = upper;
+      }
+    }
+  }

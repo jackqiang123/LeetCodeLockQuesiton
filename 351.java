@@ -35,8 +35,7 @@
 // Credits:
 // Special thanks to @elmirap for adding this problem and creating all test cases.
 public class Solution {
-    int min;
-    int max;
-    int res;
-    int curRes;
     public int numberOfPatterns(int m, int n) {
+
+    }
+}

@@ -30,3 +30,36 @@
 // Follow up:
 // What if the number of hits per second could be very large? Does your design scale?
 public class HitCounter {
+
+    /** Initialize your data structure here. */
+    Queue<Integer> queue;
+    public HitCounter() {
+      queue = new LinkedList<>();
+    }
+
+    /** Record a hit.
+        @param timestamp - The current timestamp (in seconds granularity). */
+    public void hit(int timestamp) {
+      removeHits(timestamp);
+      queue.add(timestamp);
+    }
+
+    /** Return the number of hits in the past 5 minutes.
+        @param timestamp - The current timestamp (in seconds granularity). */
+    public int getHits(int timestamp) {
+      removeHits(timestamp);
+      return queue.size();
+    }
+
+    private void removeHits(int timestamp){
+      int breakeven = timestamp - 300;
+      while(!queue.isEmpty() && queue.peek() <= breakeven) queue.remove();
+    }
+}
+
+/**
+ * Your HitCounter object will be instantiated and called as such:
+ * HitCounter obj = new HitCounter();
+ * obj.hit(timestamp);
+ * int param_2 = obj.getHits(timestamp);
+ */

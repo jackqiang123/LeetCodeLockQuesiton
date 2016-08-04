@@ -27,5 +27,36 @@
  * }
  */
  public class Solution {
-     int sum = 0;
      public int depthSumInverse(List<NestedInteger> nestedList) {
+       int depth = findDepth(nestedList);
+       int sum = 0;
+       for (NestedInteger ni : nestedList){
+         sum += helper(ni, depth);
+       }
+       return sum;
+     }
+     private int findDepth(List<NestedInteger> nestedList){
+       int d = 0;
+       for (NestedInteger n : nestedList){
+         d = Math.max(d, dhelper(n));
+       }
+       return d;
+     }
+     private int dhelper(NestedInteger n){
+       if (n.isInteger()) return 1;
+       int d = 1;
+       for (NestedInteger ni : n.getList()){
+         d = Math.max(d, 1 + dhelper(ni));
+       }
+       return d;
+     }
+
+     private int helper(NestedInteger ni, int depth){
+       if (ni.isInteger()) return ni.getInteger()*depth;
+       int sum = 0;
+       for (NestedInteger n : ni.getList()){
+         sum += helper(n, depth-1);
+       }
+       return sum;
+     }
+   }
