@@ -16,3 +16,26 @@
 // For each point, make sure that it has a reflected point in the opposite side.
 public class Solution {
   public boolean isReflected(int[][] points) {
+    if (points.length == 0) return true;
+    int min = points[0][0];
+    int max = min;
+    int [][]rPoint = new int[points.length][2];
+    Map<String, Integer> map = new HashMap<>();
+    for (int[]p:points){
+      min = Math.min(min, p[0]);
+      max = Math.max(max, p[0]);
+      String code = p[0] + "," + p[1];
+      if (map.get(code) == null) map.put(code,1);
+      else map.put(code, map.get(code)+1);
+    }
+    int sum = min + max;
+    int i = 0;
+    for (int[]p:points){
+      String code = (sum - p[0]) + "," + p[1];
+      if (map.get(code) == null) return false;
+      map.put(code, map.get(code)-1);
+      if (map.get(code) == 0) map.remove(code);
+    }
+    return map.size() == 0;
+  }
+}

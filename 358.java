@@ -23,6 +23,33 @@
 //
 // The same letters are at least distance 2 from each other.
 // Credits:
-
+// refer to another repo for another provable solution.
+// for this one, i do not know how to prove the correctness.
 public class Solution {
     public String rearrangeString(String str, int k) {
+      if (k == 0) return str;
+      int [] count = new int[26];
+      for (int i = 0; i < str.length(); i++){
+        count[str.charAt(i) - 'a']++;
+      }
+      int []lastPosition = new int[26];
+      Arrays.fill(lastPosition, -k);
+      StringBuilder res = new StringBuilder();
+      for (int i = 0; i < str.length(); i++){
+        int bestCan = findcand(count, lastPosition, i, k);
+        if (bestCan == -1) return "";
+        res.append((char)(bestCan + 'a'));
+        lastPosition[bestCan] = i;
+      }
+      return res.toString();
+    }
+    private int findcand(int []count, int[]lastPosition, int cur, int k){
+      int index = -1;
+      int max = -1;
+      for (int i = 0; i < count.length; i++){
+        if (count[i] > max && cur - lastPosition[i] >= k)
+          inedx = i;
+      }
+      return index;
+    }
+  }

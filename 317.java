@@ -20,14 +20,16 @@ public class Solution{
     if (h == 0) return 0;
     int w = grid[0].length;
     int [][]dis = new int[h][w];
-    boolean [][]reach = new boolean[h][w];
+    int [][]reach = new int[h][w];
     int []dx = new int[]{0,1,0,-1};
     int []dy = new int[]{1,0,-1,0};
+    int bcount = 0;
     for (int i = 0; i < h; i++){
       for (int j = 0; j < w; j++){
         if (grid[i][j] == 1){
+          bcount++;
           Queue<Integer> queue = new LinkedList<Integer>();
-          boolean visit[][] = new visit[h][w];
+          boolean visit[][] = new boolean[h][w];
           queue.add(i*w+j);
           int d = 0;
           while(!queue.isEmpty()){
@@ -40,9 +42,10 @@ public class Solution{
                 int nx = curx + dx[l];
                 int ny = cury + dy[l];
                 if (nx < 0 || nx >= h || ny < 0 || ny >= w || visit[nx][ny]) continue;
+                if(grid[nx][ny] != 0) continue;
                 visit[nx][ny] = true;
                 dis[nx][ny] += d;
-                reach[nx][ny] = true;
+                reach[nx][ny]++;
                 queue.add(nx*w+ny);
               }
             }
@@ -50,16 +53,18 @@ public class Solution{
         }
       }
     }
-    int res = 0;
+    int res = Integer.MAX_VALUE;
     for (int i = 0; i < h; i++)
       for (int j = 0; j < w; j++)
     {    if (grid[i][j] == 0)
-        {  res = Math.min(res, dis[i][j]);
-          if (!reach[i][j]) return -1;
+        {
+            if (reach[i][j] != bcount) continue;
+            res = Math.min(res, dis[i][j]);
+
         }
 
     }
 
-    return res;
+    return res == Integer.MAX_VALUE ? -1 : res;
   }
 }

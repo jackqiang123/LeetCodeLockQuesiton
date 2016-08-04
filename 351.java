@@ -35,7 +35,46 @@
 // Credits:
 // Special thanks to @elmirap for adding this problem and creating all test cases.
 public class Solution {
+    int [][]condPaths = new int [10][10];
+    {
+      condPaths[1][7] = 4;
+      condPaths[1][3] = 2;
+      condPaths[1][9] = 5;
+      condPaths[2][8] = 5;
+      condPaths[3][1] = 2;
+      condPaths[3][9] = 6;
+      condPaths[3][7] = 5;
+      condPaths[4][6] = 5;
+      condPaths[6][4] = 5;
+      condPaths[7][1] = 4;
+      condPaths[7][9] = 8;
+      condPaths[7][3] = 5;
+      condPaths[8][2] = 5;
+      condPaths[9][7] = 8;
+      condPaths[9][3] = 6;
+      condPaths[9][1] = 5;
+    }
+    int res = 0;
+    boolean[]visit;
     public int numberOfPatterns(int m, int n) {
-
+      res = 0;
+      for (int i = 1; i <= 9; i++){
+        visit = new boolean[10];
+        visit[0] = true;
+        visit[i] = true;
+        helper(i, 1, m, n);
+      }
+      return res;
+    }
+    private void helper(int last, int len, int lower, int upper){
+      if (len >= lower && len <= upper) {res++;}
+      if (len > upper) return;
+      for (int i = 1; i <= 9; i++){
+        if(visit[i]) continue;
+        if (!visit[condPaths[last][i]]) continue;
+        visit[i] = true;
+        helper(i, len + 1, lower, upper);
+        visit[i] = false;
+      }
     }
 }
